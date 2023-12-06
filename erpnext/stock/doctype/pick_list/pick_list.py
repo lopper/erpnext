@@ -279,6 +279,11 @@ class PickList(Document):
 	def set_item_locations(self, save=False):
 		self.validate_for_qty()
 		items = self.aggregate_item_qty()
+
+		for item in items:
+			if item.batch_no:
+				frappe.db.set_value("Pick List Item", item.name, "batch_no", item.batch_no)
+				
 		picked_items_details = self.get_picked_items_details(items)
 		self.item_location_map = frappe._dict()
 
@@ -337,6 +342,7 @@ class PickList(Document):
 				else:
 					updated_locations[key].qty += location.qty
 					updated_locations[key].stock_qty += location.stock_qty
+					updated_locations[key].batch_no = location.batch_no
 
 		for location in updated_locations.values():
 			if location.picked_qty > location.stock_qty:
@@ -606,6 +612,9 @@ def get_items_with_location_and_quantity(item_doc, item_location_map, docstatus)
 		item_location = available_locations.pop(0)
 		item_location = frappe._dict(item_location)
 
+		if item_doc.batch_no and item_location.batch_no != item_doc.batch_no:
+			continue
+		
 		stock_qty = remaining_stock_qty if item_location.qty >= remaining_stock_qty else item_location.qty
 		qty = stock_qty / (item_doc.conversion_factor or 1)
 
@@ -614,7 +623,7 @@ def get_items_with_location_and_quantity(item_doc, item_location_map, docstatus)
 			qty = floor(qty)
 			stock_qty = qty * item_doc.conversion_factor
 			if not stock_qty:
-				break
+				continue
 
 		serial_nos = None
 		if item_location.serial_no:
@@ -812,7 +821,7 @@ def get_available_item_locations_for_batched_item(
 		)
 		.groupby(sle.warehouse, sle.batch_no, sle.item_code)
 		.having(Sum(sle.actual_qty) > 0)
-		.orderby(IfNull(batch.expiry_date, "2200-01-01"), batch.creation, sle.batch_no, sle.warehouse)
+		.orderby(-batch.creation, sle.batch_no, sle.warehouse)		
 		.limit(ceil(required_qty + total_picked_qty))
 	)
 
@@ -883,7 +892,6 @@ def get_available_item_locations_for_other_item(
 		.select(bin.warehouse, bin.actual_qty.as_("qty"))
 		.where((bin.item_code == item_code) & (bin.actual_qty > 0))
 		.orderby(bin.creation)
-		.limit(ceil(required_qty + total_picked_qty))
 	)
 
 	if from_warehouses:
