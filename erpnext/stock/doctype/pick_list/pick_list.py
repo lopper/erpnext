@@ -181,6 +181,11 @@ class PickList(Document):
 	def set_item_locations(self, save=False):
 		self.validate_for_qty()
 		items = self.aggregate_item_qty()
+
+		for item in items:
+			if item.batch_no:
+				frappe.db.set_value("Pick List Item", item.name, "batch_no", item.batch_no)
+				
 		picked_items_details = self.get_picked_items_details(items)
 		self.item_location_map = frappe._dict()
 
