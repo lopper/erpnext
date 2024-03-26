@@ -1534,7 +1534,9 @@ def get_outstanding_reference_documents(args):
 		)
 
 	data = negative_outstanding_invoices + outstanding_invoices + orders_to_be_billed
-
+	# sort data by posting date in ascending order
+	data = sorted(data, key=lambda x: x.posting_date)
+	
 	if not data:
 		if args.get("get_outstanding_invoices") and args.get("get_orders_to_be_billed"):
 			ref_document_type = "invoices or orders"
