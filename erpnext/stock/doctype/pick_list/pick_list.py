@@ -707,7 +707,6 @@ def get_available_item_locations_for_other_item(
 		.select(bin.warehouse, bin.actual_qty.as_("qty"))
 		.where((bin.item_code == item_code) & (bin.actual_qty > 0))
 		.orderby(bin.creation)
-		.limit(cint(required_qty + total_picked_qty))
 	)
 
 	if from_warehouses:
