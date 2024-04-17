@@ -188,6 +188,8 @@ class BankClearance(Document):
 
 		self.set("payment_entries", [])
 		default_currency = erpnext.get_default_currency()
+		
+		entries.sort(key=lambda x: abs(flt(x.get("debit", 0)) + flt(x.get("credit", 0))), reverse=False)
 
 		for d in entries:
 			row = self.append("payment_entries", {})
