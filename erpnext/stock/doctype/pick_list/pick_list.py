@@ -654,7 +654,7 @@ def get_available_item_locations_for_batched_item(
 		)
 		.groupby(sle.warehouse, sle.batch_no, sle.item_code)
 		.having(Sum(sle.actual_qty) > 0)
-		.orderby(IfNull(batch.expiry_date, "2200-01-01"), batch.creation, sle.batch_no, sle.warehouse)
+		.orderby("-" + batch.creation, sle.batch_no, sle.warehouse)
 		.limit(cint(required_qty + total_picked_qty))
 	)
 
