@@ -634,7 +634,7 @@ frappe.ui.form.on('Payment Entry', {
 		const fields = [
 			{fieldtype:"Section Break", label: __("Posting Date")},
 			{fieldtype:"Date", label: __("From Date"),
-				fieldname:"from_posting_date", default:frappe.datetime.add_days(today, -30)},
+				fieldname:"from_posting_date", default:frappe.datetime.add_days(today, -1095)},
 			{fieldtype:"Column Break"},
 			{fieldtype:"Date", label: __("To Date"), fieldname:"to_posting_date", default:today},
 			{fieldtype:"Section Break", label: __("Due Date")},
