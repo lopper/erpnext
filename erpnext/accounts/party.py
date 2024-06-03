@@ -769,8 +769,8 @@ def get_timeline_data(doctype, name):
 		doctype,
 		name,
 		after=after,
-		group_by="group by creation",
-		fields="C.creation as creation, count(C.name)",
+		group_by="group by communication_date",
+		fields="C.communication_date as communication_date, count(C.name)",
 		as_dict=False,
 	)
 
