@@ -1191,8 +1191,14 @@ def get_previous_sle_of_current_voucher(args, operator="<", exclude_current_vouc
 		for update""".format(
 			operator=operator, voucher_condition=voucher_condition
 		),
-		args,
-		as_dict=1,
+		{
+			"time_format": args.get("time_format"),
+			"posting_date": args.get("posting_date"),
+			"item_code": args.get("item_code"),
+			"warehouse": args.get("warehouse"),
+			"posting_time": args.get("posting_time"),
+		},
+		as_dict=1
 	)
 
 	return sle[0] if sle else frappe._dict()
