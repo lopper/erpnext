@@ -26,7 +26,7 @@ def execute(filters=None):
 		return [], [], None, []
 
 	data, chart_data = prepare_data(data, so_elapsed_time, filters)
-
+	chart_data = []	
 	return columns, data, None, chart_data
 
 

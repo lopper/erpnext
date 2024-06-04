@@ -23,7 +23,7 @@ def execute(filters=None):
 		return [], [], None, []
 
 	data, chart_data = prepare_data(data, filters)
-
+	chart_data = []
 	return columns, data, None, chart_data
 
 
