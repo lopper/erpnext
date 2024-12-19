@@ -16,6 +16,8 @@
   "customer_name",
   "customer_type",
   "customer_group",
+  "collect_account",
+  "collect_postal_code",
   "column_break0",
   "territory",
   "gender",
@@ -555,6 +557,16 @@
   {
    "fieldname": "column_break_54",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "collect_account",
+   "fieldtype": "Data",
+   "label": "Collect Account"
+  },
+  {
+   "fieldname": "collect_postal_code",
+   "fieldtype": "Data",
+   "label": "Collect Postal Code"
   }
  ],
  "icon": "fa fa-user",
@@ -568,7 +580,7 @@
    "link_fieldname": "party"
   }
  ],
- "modified": "2023-10-19 16:56:27.327035",
+ "modified": "2024-07-26 21:29:35.653604",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer",
