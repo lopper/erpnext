@@ -307,12 +307,12 @@ class PickList(Document):
 		len_idx = len(self.get("locations")) or 0
 		for item_doc in items:
 			item_code = item_doc.item_code
-
+			item_from_warehouses = [item_doc.warehouse] if item_doc.get("warehouse") else from_warehouses
 			self.item_location_map.setdefault(
 				item_code,
 				get_available_item_locations(
 					item_code,
-					from_warehouses,
+					item_from_warehouses,
 					self.item_count_map.get(item_code),
 					self.company,
 					picked_item_details=picked_items_details.get(item_code),
