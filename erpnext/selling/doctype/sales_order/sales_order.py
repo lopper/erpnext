@@ -1356,7 +1356,7 @@ def create_pick_list(source_name, target_doc=None):
 			},
 			"Sales Order Item": {
 				"doctype": "Pick List Item",
-				"field_map": {"parent": "sales_order", "name": "sales_order_item"},
+				"field_map": {"parent": "sales_order", "name": "sales_order_item", "warehouse": "warehouse"},
 				"postprocess": update_item_quantity,
 				"condition": should_pick_order_item,
 			},
@@ -1366,6 +1366,7 @@ def create_pick_list(source_name, target_doc=None):
 					"parent": "sales_order",
 					"name": "sales_order_item",
 					"parent_detail_docname": "product_bundle_item",
+					"warehouse": "warehouse",
 				},
 				"field_no_map": ["picked_qty"],
 				"postprocess": update_packed_item_qty,
